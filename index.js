@@ -31817,6 +31817,8 @@ require([
   Sketch,
   geometryEngine
 ) {
+  //ANCHOR begin
+
   intl.setLocale('ar');
   esriConfig.locale = 'ar';
   esriConfig.apiKey =
@@ -31831,14 +31833,228 @@ require([
     center: [30.8206, 27.8025], // Longitude, latitude
     zoom: 10, // Zoom level
     container: 'viewDiv', // Div element
+    // highlightOptions:{color:'green'}
+  });
+  /* -------------------------------------------------------------------------- */
+  /*                                     end                                    */
+  /* -------------------------------------------------------------------------- */
+  //ANCHOR query
+  view.when(() => {
+    getData().then(createGraphics).then(createLayer);
+    // .then(setupFilter)
+    // .then(createLegand)
+    // .catch(errback);
+  });
+  function getData() {
+    return new Promise((resolve, reject) => {
+      resolve(data_trial);
+    });
+  }
+  function createGraphics(res) {
+    const data = res;
+    return data.map(function (place) {
+      return new Graphic({
+        attributes: place.attributes,
+        // symbol: mysimpleFillSymbol,
+        geometry: {
+          type: 'polygon',
+          rings: place.geometry.rings,
+        },
+      });
+    });
+  }
+  let globalfeatureLayer;
+  function createLayer(res) {
+    const featureLayer = new FeatureLayer({
+      source: res,
+      renderer: new SimpleRenderer({
+        symbol: new SimpleFillSymbol({
+          color: 'blue', // Orange, opacity 80%
+          outline: {
+            color: 'white',
+            width: 1,
+          },
+        }),
+      }),
+      geometryType: 'polygon',
+      spatialReference: { wkid: 4326, latestWkid: 4326 },
+      objectIdField: 'OBJECTID', // This must be defined when creating a layer from `Graphic` objects
+      fields: [
+        { name: 'OBJECTID', type: 'oid', alias: 'OBJECTID' },
+
+        {
+          name: 'SHAPE_Length',
+          type: 'double',
+          alias: 'SHAPE_Length',
+        },
+        {
+          name: 'SHAPE_Area',
+          type: 'double',
+          alias: 'SHAPE_Area',
+        },
+        {
+          name: 'رقم_الطلب',
+          type: 'string',
+          alias: 'رقم_الطلب',
+          length: 50,
+        },
+        {
+          name: 'تداخلات',
+          type: 'string',
+          alias: 'تداخلات',
+          length: 50,
+        },
+        {
+          name: 'المحافظة',
+          type: 'string',
+          alias: 'المحافظة',
+          length: 50,
+        },
+        {
+          name: 'اسم_المالك',
+          type: 'string',
+          alias: 'اسم_المالك',
+          length: 50,
+        },
+        {
+          name: 'اسم_مقدم_الطلب',
+          type: 'string',
+          alias: 'اسم_مقدم_الطلب',
+          length: 50,
+        },
+        {
+          name: 'اسم_المزرعة',
+          type: 'string',
+          alias: 'اسم_المزرعة',
+          length: 50,
+        },
+        {
+          name: 'رقم_هاتف_المالك',
+          type: 'double',
+          alias: 'رقم_هاتف_المالك',
+        },
+        {
+          name: 'رقم_هاتف_مقدم_الطلب',
+          type: 'double',
+          alias: 'رقم_هاتف_مقدم_الطلب',
+        },
+        {
+          name: 'تاريخ_الطلب',
+          type: 'date',
+          alias: 'تاريخ_الطلب',
+          length: 8,
+        },
+        {
+          name: 'تاريخ_فحص_العينة',
+          type: 'date',
+          alias: 'تاريخ_فحص_العينة',
+          length: 8,
+        },
+        {
+          name: 'المساحة_الفعلية',
+          type: 'single',
+          alias: 'المساحة_الفعلية',
+        },
+        {
+          name: 'عدد_القطع',
+          type: 'double',
+          alias: 'عدد_القطع',
+        },
+        {
+          name: 'عدد_النقط',
+          type: 'double',
+          alias: 'عدد_النقط',
+        },
+        {
+          name: 'الوحدة_المحلية',
+          type: 'string',
+          alias: 'الوحدة_المحلية',
+          length: 50,
+        },
+        {
+          name: 'المركز_القسم',
+          type: 'string',
+          alias: 'المركز_القسم',
+          length: 50,
+        },
+        { name: 'Area', type: 'double', alias: 'Area' },
+        { name: 'FADAN', type: 'double', alias: 'FADAN' },
+        { name: 'POINT_X', type: 'double', alias: 'POINT_X' },
+        { name: 'POINT_Y', type: 'double', alias: 'POINT_Y' },
+        {
+          name: 'المساحة_فى_الطلب',
+          type: 'double',
+          alias: 'المساحة_فى_الطلب',
+        },
+      ],
+
+      popupTemplate: {
+        // autocasts as new PopupTemplate()
+        title: 'بيانات قطعة الارض',
+        content: [
+          {
+            type: 'fields',
+            fieldInfos: [
+              {
+                fieldName: 'SHAPE_Length',
+                label: 'الطول',
+                visible: true,
+              },
+              { fieldName: 'SHAPE_Length', label: 'الطول' },
+              { fieldName: 'SHAPE_Area', label: 'المساحة' },
+              { fieldName: 'رقم_الطلب', label: 'رقم الطلب' },
+              { fieldName: 'تداخلات', label: 'تداخلات' },
+              { fieldName: 'المحافظة', label: 'المحافظة' },
+              { fieldName: 'اسم_المالك', label: 'اسم المالك' },
+              { fieldName: 'اسم_مقدم_الطلب', label: 'اسم مقدم الطلب' },
+              { fieldName: 'اسم_المزرعة', label: 'اسم المزرعة' },
+              { fieldName: 'رقم_هاتف_المالك', label: 'رقم هاتف المالك' },
+              { fieldName: 'رقم_هاتف_مقدم_الطلب', label: 'رقم هاتف مقدم لطلب' },
+              { fieldName: 'تاريخ_الطلب', label: 'تاريخ الطلب' },
+              { fieldName: 'تاريخ_فحص_العينة', label: 'تاريخ فحص العينة' },
+              { fieldName: 'المساحة_الفعلية', label: 'المساحة الفعلية' },
+              { fieldName: 'عدد_القطع', label: 'عدد القطع' },
+              { fieldName: 'عدد_النقط', label: 'عدد النقط' },
+              { fieldName: 'الوحدة_المحلية', label: 'الوحدة المحلية' },
+              { fieldName: 'المركز_القسم', label: 'المركز القسم' },
+              { fieldName: 'Area', label: 'المساحة' },
+              { fieldName: 'FADAN', label: 'الفدان' },
+              { fieldName: 'POINT_X', label: 'POINT_X' },
+              { fieldName: 'POINT_Y', label: 'POINT_Y' },
+              { fieldName: 'المساحة_فى_الطلب', label: 'المساحة فى الطلب' },
+            ],
+          },
+        ],
+      },
+    });
+    map.add(featureLayer, 0);
+    globalfeatureLayer = featureLayer;
+    return featureLayer;
+  }
+
+  const selectFilter = document.getElementById('season');
+  selectFilter.setAttribute('class', 'esri-widget esri-select');
+  selectFilter.setAttribute(
+    'style',
+    'width: 275px; font-family: Avenir Next W00; font-size: 1em;'
+  );
+  view.ui.add(selectFilter, 'top-right');
+  selectFilter.addEventListener('change', () => {
+    globalfeatureLayer.destroy();
+    getData().then(createGraphics).then(createLayer);
+    console.log('layer has been destroyed and recreated with new data');
   });
 
-  //graphic layers:
+  /* -------------------------------------------------------------------------- */
+  /*                                     end                                    */
+  /* -------------------------------------------------------------------------- */
+
+  //ANCHOR graphic layers:
   //A graphics layer is a container for graphics. It is used with a map view to display graphics on a map. You can add more than one graphics layer to a map view. Graphics layers are displayed on top of all other layers.
   const graphicsLayer = new GraphicsLayer();
   map.add(graphicsLayer);
 
-  //point:
+  //*point:
 
   //Create a point and simpleMarkerSymbol that will be used to create a Graphic:
   const point = {
@@ -31863,7 +32079,7 @@ require([
   });
   graphicsLayer.add(pointGraphic);
 
-  //polyline:
+  //*polyline:
 
   //Define the polyline and simpleLineSymbol that will be used to create a Graphic.
   const polyline = {
@@ -31887,7 +32103,7 @@ require([
   });
   graphicsLayer.add(polylineGraphic);
 
-  //polygon
+  //*polygon
 
   //Define the polygon and simpleFillSymbol that will be used to create a Graphic
   const polygon = {
@@ -31935,7 +32151,7 @@ require([
   /*                                     end                                    */
   /* -------------------------------------------------------------------------- */
 
-  //feature layer
+  //ANCHOR feature layer
   const graphics = data_trial.map(function (place) {
     console.log(place.attributes);
     return new Graphic({
@@ -32111,13 +32327,12 @@ require([
     },
   });
 
-  map.add(featureLayer, 0); // or map.layers.add(featureLayer);
+  // map.add(featureLayer, 0); // or map.layers.add(featureLayer);
 
   /* -------------------------------------------------------------------------- */
   /*                                     end                                    */
   /* -------------------------------------------------------------------------- */
-  //overlap relations
-  // Add relationshipResults to the bottom-right of the view's UI.
+  //ANCHOR overlap relations
 
   const polygon1 = {
     type: 'polygon',
@@ -32187,6 +32402,7 @@ require([
   graphicsLayer.add(polygonGraphic2);
   let selectedGraphics = [polygonGraphic1, polygonGraphic2];
 
+  // Add relationshipResults to the bottom-right of the view's UI.
   const relationshipDiv = document.getElementById('relationshipResults');
   view.ui.add(relationshipDiv, 'bottom-right');
 
@@ -32229,11 +32445,11 @@ require([
     showSpatialRelationship('Within', within);
 
     // intersection
-// Note:
-// intersect() Geometry|Geometry[]
-// Creates a new geometry through intersection between two geometries.
-// intersects()	Boolean	
-// Indicates if one geometry intersects another geometry.
+    // Note:
+    // intersect() Geometry|Geometry[]
+    // Creates a new geometry through intersection between two geometries.
+    // intersects()	Boolean
+    // Indicates if one geometry intersects another geometry.
 
     const intersectGeom = geometryEngine.intersect(geometry1, geometry2);
     const intersectionGraphic = new Graphic({
@@ -32248,7 +32464,7 @@ require([
       },
     });
     graphicsLayer.add(intersectionGraphic);
-    const planarArea = geometryEngine.geodesicArea (
+    const planarArea = geometryEngine.geodesicArea(
       intersectionGraphic.geometry,
       'square-kilometers'
     );
@@ -32257,4 +32473,7 @@ require([
   }
 
   onGraphicUpdate();
+  /* -------------------------------------------------------------------------- */
+  /*                                     end                                    */
+  /* -------------------------------------------------------------------------- */
 });
