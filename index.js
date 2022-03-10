@@ -3519,44 +3519,44 @@ const data_trial = [
       ],
     },
   },
-  {
-    attributes: {
-      OBJECTID: 128,
-      SHAPE_Length: 0.0044830417428525296,
-      SHAPE_Area: 1.187237210675463e-6,
-      رقم_الطلب: '6688A',
-      تداخلات: null,
-      المحافظة: 'أسيوط',
-      اسم_المالك: 'علاء عنتر محمود',
-      اسم_مقدم_الطلب: 'علاء عنتر محمود',
-      اسم_المزرعة: 'علاء عنتر محمود',
-      رقم_هاتف_المالك: null,
-      رقم_هاتف_مقدم_الطلب: 1092697248,
-      تاريخ_الطلب: 1594771200000,
-      تاريخ_فحص_العينة: 1595462400000,
-      المساحة_الفعلية: 4.93,
-      عدد_القطع: 2,
-      عدد_النقط: 8,
-      الوحدة_المحلية: 'بصرة',
-      المركز_القسم: 'مركز الفتح',
-      Area: 13031.763406244465,
-      FADAN: 3.1028008110105869,
-      POINT_X: 31.319177549000074,
-      POINT_Y: 27.207885278000049,
-      المساحة_فى_الطلب: 5.5,
-    },
-    geometry: {
-      rings: [
-        [
-          [31.31897097500007, 27.207072973000038],
-          [31.318406034000077, 27.207725001000028],
-          [31.319342963000054, 27.208670983000047],
-          [31.319975965000026, 27.208086010000045],
-          [31.31897097500007, 27.207072973000038],
-        ],
-      ],
-    },
-  },
+  // {
+  //   attributes: {
+  //     OBJECTID: 128,
+  //     SHAPE_Length: 0.0044830417428525296,
+  //     SHAPE_Area: 1.187237210675463e-6,
+  //     رقم_الطلب: '6688A',
+  //     تداخلات: null,
+  //     المحافظة: 'أسيوط',
+  //     اسم_المالك: 'علاء عنتر محمود',
+  //     اسم_مقدم_الطلب: 'علاء عنتر محمود',
+  //     اسم_المزرعة: 'علاء عنتر محمود',
+  //     رقم_هاتف_المالك: null,
+  //     رقم_هاتف_مقدم_الطلب: 1092697248,
+  //     تاريخ_الطلب: 1594771200000,
+  //     تاريخ_فحص_العينة: 1595462400000,
+  //     المساحة_الفعلية: 4.93,
+  //     عدد_القطع: 2,
+  //     عدد_النقط: 8,
+  //     الوحدة_المحلية: 'بصرة',
+  //     المركز_القسم: 'مركز الفتح',
+  //     Area: 13031.763406244465,
+  //     FADAN: 3.1028008110105869,
+  //     POINT_X: 31.319177549000074,
+  //     POINT_Y: 27.207885278000049,
+  //     المساحة_فى_الطلب: 5.5,
+  //   },
+  //   geometry: {
+  //     rings: [
+  //       [
+  //         [31.31897097500007, 27.207072973000038],
+  //         [31.318406034000077, 27.207725001000028],
+  //         [31.319342963000054, 27.208670983000047],
+  //         [31.319975965000026, 27.208086010000045],
+  //         [31.31897097500007, 27.207072973000038],
+  //       ],
+  //     ],
+  //   },
+  // },
   {
     attributes: {
       OBJECTID: 129,
@@ -31747,40 +31747,98 @@ const data_trial = [
       ],
     },
   },
+  // {
+  //   attributes: {
+  //     OBJECTID: 1233,
+  //     SHAPE_Length: 0.0084449968041824391,
+  //     SHAPE_Area: 3.8631803069630833e-6,
+  //     رقم_الطلب: '6716D',
+  //     تداخلات: null,
+  //     المحافظة: 'أسيوط',
+  //     اسم_المالك: 'رشوان احمد هاشم',
+  //     اسم_مقدم_الطلب: 'رشوان احمد هاشم',
+  //     اسم_المزرعة: 'رشوان احمد هاشم1',
+  //     رقم_هاتف_المالك: 1005573317,
+  //     رقم_هاتف_مقدم_الطلب: 1005573317,
+  //     تاريخ_الطلب: 1594857600000,
+  //     تاريخ_فحص_العينة: 1595376000000,
+  //     المساحة_الفعلية: 14.04,
+  //     عدد_القطع: 4,
+  //     عدد_النقط: 16,
+  //     الوحدة_المحلية: 'العقال\u00A0بحري',
+  //     المركز_القسم: 'مركز البدارى',
+  //     Area: 42487.9762776188,
+  //     FADAN: 10.116184828004476,
+  //     POINT_X: 31.433548643000051,
+  //     POINT_Y: 26.972318637000058,
+  //     المساحة_فى_الطلب: 20,
+  //   },
+  //   geometry: {
+  //     rings: [
+  //       [
+  //         [31.435254961000055, 26.972494014000063],
+  //         [31.432571998000071, 26.971031958000026],
+  //         [31.432006974000046, 26.972241970000027],
+  //         [31.434289031000048, 26.973544015000073],
+  //         [31.435254961000055, 26.972494014000063],
+  //       ],
+  //     ],
+  //   },
+  // },
+];
+
+const blabla = [
   {
     attributes: {
-      OBJECTID: 1233,
-      SHAPE_Length: 0.0084449968041824391,
-      SHAPE_Area: 3.8631803069630833e-6,
-      رقم_الطلب: '6716D',
-      تداخلات: null,
-      المحافظة: 'أسيوط',
-      اسم_المالك: 'رشوان احمد هاشم',
-      اسم_مقدم_الطلب: 'رشوان احمد هاشم',
-      اسم_المزرعة: 'رشوان احمد هاشم1',
-      رقم_هاتف_المالك: 1005573317,
-      رقم_هاتف_مقدم_الطلب: 1005573317,
-      تاريخ_الطلب: 1594857600000,
-      تاريخ_فحص_العينة: 1595376000000,
-      المساحة_الفعلية: 14.04,
-      عدد_القطع: 4,
-      عدد_النقط: 16,
-      الوحدة_المحلية: 'العقال\u00A0بحري',
-      المركز_القسم: 'مركز البدارى',
-      Area: 42487.9762776188,
-      FADAN: 10.116184828004476,
-      POINT_X: 31.433548643000051,
-      POINT_Y: 26.972318637000058,
-      المساحة_فى_الطلب: 20,
+      new: 'true',
     },
     geometry: {
       rings: [
         [
-          [31.435254961000055, 26.972494014000063],
-          [31.432571998000071, 26.971031958000026],
-          [31.432006974000046, 26.972241970000027],
-          [31.434289031000048, 26.973544015000073],
-          [31.435254961000055, 26.972494014000063],
+          [31.31897097500007, 27.207072973000038],
+          [31.318406034000077, 27.207725001000028],
+          [31.319342963000054, 27.208670983000047],
+          [31.319975965000026, 27.208086010000045],
+          [31.31897097500007, 27.207072973000038],
+        ],
+      ],
+    },
+  },
+  {
+    attributes: {
+      new: 'true',
+    },
+    geometry: {
+      rings: [
+        [
+          [31.31319337800005, 27.21431467800005],
+          [31.312776936000034, 27.213969348000035],
+          [31.312763716000063, 27.21395838600006],
+          [31.312616716000036, 27.214051874000063],
+          [31.312335413000028, 27.213787065000076],
+          [31.31137358600006, 27.21484247400008],
+          [31.311323997000045, 27.214874011000063],
+          [31.311591500000077, 27.215087766000067],
+          [31.31161694900004, 27.215108101000055],
+          [31.312084369000047, 27.215481606000026],
+          [31.31309244700003, 27.214420879000045],
+          [31.31314858500008, 27.21436181000007],
+          [31.31319337800005, 27.21431467800005],
+        ],
+      ],
+    },
+  },
+  {
+    attributes: {
+      new: 'true',
+    },
+    geometry: {
+      rings: [
+        [
+          [31.31309244700003, 27.214420879000045],
+          [31.31314858500008, 27.21436181000007],
+          [31.31309072600004, 27.214419428000042],
+          [31.31309244700003, 27.214420879000045],
         ],
       ],
     },
@@ -31807,7 +31865,7 @@ require([
 
   'esri/rest/geometryService',
 
-  "esri/tasks/GeometryService"
+  'esri/tasks/GeometryService',
 ], function (
   esriConfig,
   Map,
@@ -31846,7 +31904,9 @@ require([
   /* -------------------------------------------------------------------------- */
   //ANCHOR query
   view.when(() => {
-    getData().then(createGraphics).then(createIntersect).then(createLayer);
+    getData().then(createGraphics).then(createLayer).then(createIntersect);
+    // .then(add);
+    // .then(createIntersect);
     // .then(setupFilter)
     // .then(createLegand)
     // .catch(errback);
@@ -31858,72 +31918,163 @@ require([
   }
   function createGraphics(res) {
     const data = res;
-    const finalGraphics= data.map(function (place) {
+    const finalGraphics = data.map(function (place) {
       return new Graphic({
-        attributes: place.attributes,
-        // symbol: mysimpleFillSymbol,
         geometry: {
           type: 'polygon',
           rings: place.geometry.rings,
+          spatialReference: { wkid: 4326, latestWkid: 4326 },
         },
+        attributes: place.attributes,
       });
     });
-    
-    return finalGraphics
 
+    return finalGraphics;
   }
 
-function createIntersect(finalGraphics){
+  function checkintersect(arr, targetEle) {
+    arr.forEach(async (el, i) => {
+      const overlaps = geometryEngine.overlaps(el, targetEle);
+      console.log(overlaps);
+      if (overlaps) {
+        const x = geometryEngine.intersect(el, targetEle);
 
-  const arr= finalGraphics.map((el)=>{return el.geometry})
- 
-const intersectionPolygons=  finalGraphics.map((el,i)=>{
-    geometryService.intersect(
-      'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/intersect',
-      arr,
-      el.geometry
-    ).then((res)=>{console.log(res)
-    res.map((el)=>{
-      const intersectionGraphic = new Graphic({
-      geometry: el,
-      symbol: {
-        type: 'simple-fill',
-        style: 'cross',
-        color: 'red',
-        outline: {
-          color: 'green',
-        },
-      },
+        const intersectionGraphic = new Graphic({
+          geometry: x,
+          symbol: {
+            type: 'simple-fill',
+            style: 'solid',
+            color: 'red',
+            outline: {
+              color: 'green',
+            },
+          },
+          attributes: {
+            new: 'true',
+          },
+        });
+
+        // graphicsLayer.add(intersectionGraphic);
+
+        await globalfeatureLayer.queryFeatures();
+        globalfeatureLayer.applyEdits({
+          addFeatures: [intersectionGraphic],
+        });
+      }
     });
-    graphicsLayer.add(intersectionGraphic);
   }
-    )
-    })
-  })
 
- return finalGraphics
+  function createIntersect(finalGraphics) {
+    const arrfinal = finalGraphics.slice(0, 100);
+    const arrgeo = arrfinal.map((el) => {
+      return el.geometry;
+    });
+    console.log(arrgeo);
+    console.log(arrfinal);
+    arrgeo.map((el, i) => {
+      checkintersect(arrgeo, el);
 
+      // const test = await geometryService.intersect(
+      //   'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/intersect',
+      //   arrgeo,
+      //   el
+      // );
+      // console.log(test);
+      // const finalTest = test.map(() => {
+      //   return;
+      // });
 
-}
+      // test.map(async (el) => {
+      //   const intersectionGraphic = new Graphic({
+      //     geometry: el,
+      //     attributes: {
+      //       new: 'true',
+      //     },
+      //   });
+      //   // graphicsLayer.add(intersectionGraphic);
+
+      //   await globalfeatureLayer.queryFeatures();
+      //   globalfeatureLayer.applyEdits({
+      //     addFeatures: [intersectionGraphic],
+      //   });
+      // });
+
+      // test.map((el) => {
+      //   const intersectionGraphic = new Graphic({
+      //     geometry: el,
+      //     symbol: {
+      //       type: 'simple-fill',
+      //       style: 'cross',
+      //       color: 'red',
+      //       outline: {
+      //         color: 'green',
+      //       },
+      //     },
+      //   });
+      //   graphicsLayer.add(intersectionGraphic);
+      // });
+
+      // .then((res) => {
+      //   console.log(res);
+      //   res.map((el) => {
+      //     const intersectionGraphic = new Graphic({
+      //       geometry: el,
+      //       symbol: {
+      //         type: 'simple-fill',
+      //         style: 'cross',
+      //         color: 'red',
+      //         outline: {
+      //           color: 'green',
+      //         },
+      //       },
+      //     });
+      //     graphicsLayer.add(intersectionGraphic);
+      //   });
+      // });
+    });
+  }
 
   let globalfeatureLayer;
   function createLayer(res) {
     const featureLayer = new FeatureLayer({
       source: res,
-      renderer: new SimpleRenderer({
-        symbol: new SimpleFillSymbol({
+      renderer: {
+        type: 'unique-value', // autocasts as new UniqueValueRenderer()
+        field: 'new',
+        defaultSymbol: {
+          type: 'simple-fill',
           color: 'blue', // Orange, opacity 80%
           outline: {
             color: 'white',
             width: 1,
           },
-        }),
-      }),
+        }, // autocasts as new SimpleFillSymbol()
+        uniqueValueInfos: [
+          {
+            // All features with value of "North" will be blue
+            value: 'true',
+            symbol: {
+              type: 'simple-fill', // autocasts as new SimpleFillSymbol()
+              color: 'red',
+            },
+          },
+        ],
+      },
+      // renderer: new SimpleRenderer({
+      //   symbol: new SimpleFillSymbol({
+      //     color: 'blue', // Orange, opacity 80%
+      //     outline: {
+      //       color: 'white',
+      //       width: 1,
+      //     },
+      //   }),
+      // }),
       geometryType: 'polygon',
       spatialReference: { wkid: 4326, latestWkid: 4326 },
       objectIdField: 'OBJECTID', // This must be defined when creating a layer from `Graphic` objects
       fields: [
         { name: 'OBJECTID', type: 'oid', alias: 'OBJECTID' },
+        { name: 'new', type: 'string', alias: 'new' },
 
         {
           name: 'SHAPE_Length',
@@ -32072,7 +32223,25 @@ const intersectionPolygons=  finalGraphics.map((el,i)=>{
     });
     map.add(featureLayer, 0);
     globalfeatureLayer = featureLayer;
-    return featureLayer;
+    return res;
+  }
+
+  async function add() {
+    const addedfeatures = blabla.map((el) => {
+      return new Graphic({
+        attributes: el.attributes,
+        // symbol: mysimpleFillSymbol,
+        geometry: {
+          type: 'polygon',
+          rings: el.geometry.rings,
+        },
+      });
+    });
+    console.log(addedfeatures);
+    await globalfeatureLayer.queryFeatures();
+    globalfeatureLayer.applyEdits({
+      addFeatures: [addedfeatures[0]],
+    });
   }
 
   const selectFilter = document.getElementById('season');
@@ -32404,6 +32573,53 @@ const intersectionPolygons=  finalGraphics.map((el,i)=>{
     ],
     spatialReference: { wkid: 4326, latestWkid: 4326 },
   };
+  const polygon11 = {
+    type: 'polygon',
+    rings: [
+      [31.313527012000065, 27.213233002000038],
+      [31.312150942000073, 27.211679081000057],
+      [31.310252035000076, 27.213580012000023],
+      [31.311373586000059, 27.214842474000079],
+      [31.311591500000077, 27.215087766000067],
+      [31.311613005000027, 27.215111973000035],
+      [31.31161694900004, 27.215108101000055],
+      [31.312776936000034, 27.213969348000035],
+      [31.313527012000065, 27.213233002000038],
+    ],
+    spatialReference: { wkid: 4326, latestWkid: 4326 },
+  };
+  const polygon22 = {
+    type: 'polygon',
+    rings: [
+      [31.313193378000051, 27.214314678000051],
+      [31.312776936000034, 27.213969348000035],
+      [31.312763716000063, 27.213958386000058],
+      [31.312616716000036, 27.214051874000063],
+      [31.312335413000028, 27.213787065000076],
+      [31.311373586000059, 27.214842474000079],
+      [31.311323997000045, 27.214874011000063],
+      [31.311591500000077, 27.215087766000067],
+      [31.31161694900004, 27.215108101000055],
+      [31.312084369000047, 27.215481606000026],
+      [31.313092447000031, 27.214420879000045],
+      [31.313148585000079, 27.214361810000071],
+      [31.313193378000051, 27.214314678000051],
+    ],
+    spatialReference: { wkid: 4326, latestWkid: 4326 },
+  };
+  const polygon33 = {
+    type: 'polygon',
+    rings: [
+      [31.314121643000078, 27.213859860000071],
+      [31.313882591000038, 27.213630866000074],
+      [31.313148585000079, 27.214361810000071],
+      [31.313090726000041, 27.214419428000042],
+      [31.313092447000031, 27.214420879000045],
+      [31.313388627000052, 27.214670600000034],
+      [31.314121643000078, 27.213859860000071],
+    ],
+    spatialReference: { wkid: 4326, latestWkid: 4326 },
+  };
   const polygon3 = {
     type: 'polygon',
     rings: [
@@ -32537,6 +32753,31 @@ const intersectionPolygons=  finalGraphics.map((el,i)=>{
     popupTemplate: popupTemplatetest,
   });
   graphicsLayer.add(polygonGraphic2);
+  // const polygonGraphic11 = new Graphic({
+  //   geometry: polygon11,
+  //   symbol: mysimpleFillSymboltest,
+
+  //   attributes: attributestest,
+  //   popupTemplate: popupTemplatetest,
+  // });
+  // graphicsLayer.add(polygonGraphic11);
+
+  // const polygonGraphic22 = new Graphic({
+  //   geometry: polygon22,
+  //   symbol: mysimpleFillSymboltest,
+
+  //   attributes: attributestest,
+  //   popupTemplate: popupTemplatetest,
+  // });
+  // graphicsLayer.add(polygonGraphic22);
+  // const polygonGraphic33 = new Graphic({
+  //   geometry: polygon33,
+  //   symbol: mysimpleFillSymboltest,
+
+  //   attributes: attributestest,
+  //   popupTemplate: popupTemplatetest,
+  // });
+  // graphicsLayer.add(polygonGraphic33);
 
   const polygonGraphic3 = new Graphic({
     geometry: polygon3,
@@ -32585,7 +32826,8 @@ const intersectionPolygons=  finalGraphics.map((el,i)=>{
     polygonGraphic6.geometry,
     polygonGraphic7.geometry,
   ];
-  console.log(z);
+  // let y = [polygonGraphic11.geometry, polygonGraphic33.geometry];
+  // console.log(z);
   // Add relationshipResults to the bottom-right of the view's UI.
   const relationshipDiv = document.getElementById('relationshipResults');
   view.ui.add(relationshipDiv, 'bottom-right');
@@ -32662,30 +32904,52 @@ const intersectionPolygons=  finalGraphics.map((el,i)=>{
   /*                                     end                                    */
   /* -------------------------------------------------------------------------- */
 
- geometryService.intersect(
-    'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/intersect',
-    z,
-    polygonGraphic4.geometry
-  ).then((res)=>{console.log(res)
-  res.map((el)=>{
-    const intersectionGraphic = new Graphic({
-    geometry: el,
-    symbol: {
-      type: 'simple-fill',
-      style: 'cross',
-      color: 'red',
-      outline: {
-        color: 'green',
-      },
-    },
-  });
-  graphicsLayer.add(intersectionGraphic);
-}
-  )
-  })
+  // geometryService
+  //   .intersect(
+  //     'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/intersect',
+  //     z,
+  //     polygonGraphic4.geometry
+  //   )
+  //   .then((res) => {
+  //     console.log(res);
+  //     res.map((el) => {
+  //       const intersectionGraphic = new Graphic({
+  //         geometry: el,
+  //         symbol: {
+  //           type: 'simple-fill',
+  //           style: 'cross',
+  //           color: 'red',
+  //           outline: {
+  //             color: 'green',
+  //           },
+  //         },
+  //       });
+  //       graphicsLayer.add(intersectionGraphic);
+  //     });
+  //   });
+
+  async function testgeoser() {
+    const res = await geometryService.intersect(
+      'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/intersect',
+      y,
+      polygonGraphic22.geometry
+    );
+
+    res.map((el) => {
+      const intersectionGraphic = new Graphic({
+        geometry: el,
+        symbol: {
+          type: 'simple-fill',
+          style: 'cross',
+          color: 'red',
+          outline: {
+            color: 'green',
+          },
+        },
+      });
+      graphicsLayer.add(intersectionGraphic);
+    });
+  }
+  // testgeoser();
   // const geomSer =new GeometryService({url:'http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer'})
-
-  // geomSer.intersect(z,
-  //   polygonGraphic4.geometry)
-
 });
