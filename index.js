@@ -1,3 +1,4 @@
+//ANCHOR main data
 const data_trial = [
   {
     attributes: {
@@ -31866,6 +31867,8 @@ require([
   'esri/rest/geometryService',
 
   'esri/tasks/GeometryService',
+
+  'esri/rest/support/RelationParameters',
 ], function (
   esriConfig,
   Map,
@@ -31879,7 +31882,8 @@ require([
   Sketch,
   geometryEngine,
   geometryService,
-  GeometryService
+  GeometryService,
+  RelationParameters
 ) {
   //ANCHOR begin
 
@@ -31916,6 +31920,8 @@ require([
       resolve(data_trial);
     });
   }
+
+  let globalGraphics;
   function createGraphics(res) {
     const data = res;
     const finalGraphics = data.map(function (place) {
@@ -31928,7 +31934,7 @@ require([
         attributes: place.attributes,
       });
     });
-
+    globalGraphics = finalGraphics;
     return finalGraphics;
   }
 
@@ -31964,74 +31970,128 @@ require([
     });
   }
 
-  function createIntersect(finalGraphics) {
-    const arrfinal = finalGraphics.slice(0, 100);
-    const arrgeo = arrfinal.map((el) => {
+  async function createIntersect(finalGraphics) {
+    // test3
+    const arrfinal = finalGraphics.slice(0, 500);
+    const arrgeo = finalGraphics.map((el) => {
       return el.geometry;
     });
-    console.log(arrgeo);
-    console.log(arrfinal);
-    arrgeo.map((el, i) => {
-      checkintersect(arrgeo, el);
+    const relationParams = new RelationParameters({
+      geometries1: arrgeo,
+      geometries2: arrgeo,
+      relation: 'overlap',
+    });
 
-      // const test = await geometryService.intersect(
-      //   'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/intersect',
-      //   arrgeo,
-      //   el
-      // );
-      // console.log(test);
-      // const finalTest = test.map(() => {
-      //   return;
-      // });
+    const res = await geometryService.relation(
+      'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/relation',
+      relationParams
+    );
+    console.log(res);
 
-      // test.map(async (el) => {
-      //   const intersectionGraphic = new Graphic({
-      //     geometry: el,
-      //     attributes: {
-      //       new: 'true',
-      //     },
-      //   });
-      //   // graphicsLayer.add(intersectionGraphic);
+    res.forEach(({ geometry1Index, geometry2Index }) => {
+      const intersectGeom = geometryEngine.intersect(
+        arrgeo[geometry1Index],
+        arrgeo[geometry2Index]
+      );
+      const intersectionGraphic = new Graphic({
+        geometry: intersectGeom,
+        symbol: {
+          type: 'simple-fill',
+          style: 'solid',
+          color: 'red',
+          outline: {
+            color: 'green',
+          },
+        },
+        attributes: {
+          new: 'true',
+        },
+      });
 
-      //   await globalfeatureLayer.queryFeatures();
-      //   globalfeatureLayer.applyEdits({
-      //     addFeatures: [intersectionGraphic],
-      //   });
-      // });
+      graphicsLayer.add(intersectionGraphic);
 
-      // test.map((el) => {
-      //   const intersectionGraphic = new Graphic({
-      //     geometry: el,
-      //     symbol: {
-      //       type: 'simple-fill',
-      //       style: 'cross',
-      //       color: 'red',
-      //       outline: {
-      //         color: 'green',
-      //       },
-      //     },
-      //   });
-      //   graphicsLayer.add(intersectionGraphic);
-      // });
-
-      // .then((res) => {
-      //   console.log(res);
-      //   res.map((el) => {
-      //     const intersectionGraphic = new Graphic({
-      //       geometry: el,
-      //       symbol: {
-      //         type: 'simple-fill',
-      //         style: 'cross',
-      //         color: 'red',
-      //         outline: {
-      //           color: 'green',
-      //         },
-      //       },
-      //     });
-      //     graphicsLayer.add(intersectionGraphic);
-      //   });
+      // await globalfeatureLayer.queryFeatures();
+      // globalfeatureLayer.applyEdits({
+      //   addFeatures: [intersectionGraphic],
       // });
     });
+    // test2
+    // const arrfinal = finalGraphics.slice(0, 20);
+    // const arrgeo = arrfinal.map((el) => {
+    //   return el.geometry;
+    // });
+    // console.log(arrgeo);
+    // console.log(arrfinal);
+    // arrgeo.map((el, i) => {
+    //   checkintersect(arrgeo, el);
+    // });
+
+    // test1
+    // const arrfinal = finalGraphics.slice(0, 20);
+    // const arrgeo = arrfinal.map((el) => {
+    //   return el.geometry;
+    // });
+    // console.log(arrgeo);
+    // console.log(arrfinal);
+    // arrgeo.map((el, i) => {
+    // const test = await geometryService.intersect(
+    //   'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/intersect',
+    //   arrgeo,
+    //   el
+    // );
+    // console.log(test);
+    // const finalTest = test.map(() => {
+    //   return;
+    // });
+
+    // test.map(async (el) => {
+    //   const intersectionGraphic = new Graphic({
+    //     geometry: el,
+    //     attributes: {
+    //       new: 'true',
+    //     },
+    //   });
+    //   // graphicsLayer.add(intersectionGraphic);
+
+    //   await globalfeatureLayer.queryFeatures();
+    //   globalfeatureLayer.applyEdits({
+    //     addFeatures: [intersectionGraphic],
+    //   });
+    // });
+
+    // test.map((el) => {
+    //   const intersectionGraphic = new Graphic({
+    //     geometry: el,
+    //     symbol: {
+    //       type: 'simple-fill',
+    //       style: 'cross',
+    //       color: 'red',
+    //       outline: {
+    //         color: 'green',
+    //       },
+    //     },
+    //   });
+    //   graphicsLayer.add(intersectionGraphic);
+    // });
+
+    // .then((res) => {
+    //   console.log(res);
+    //   res.map((el) => {
+    //     const intersectionGraphic = new Graphic({
+    //       geometry: el,
+    //       symbol: {
+    //         type: 'simple-fill',
+    //         style: 'cross',
+    //         color: 'red',
+    //         outline: {
+    //           color: 'green',
+    //         },
+    //       },
+    //     });
+    //     graphicsLayer.add(intersectionGraphic);
+    //   });
+    // });
+    // });
   }
 
   let globalfeatureLayer;
@@ -32257,6 +32317,77 @@ require([
     console.log('layer has been destroyed and recreated with new data');
   });
 
+  //ANCHOR Button for centroids
+  const element = document.createElement('div');
+  element.className =
+    'esri-icon-collection esri-widget--button esri-widget esri-interactive';
+  element.addEventListener('click', function (evt) {
+    const centroidsGeometryArr = globalGraphics.map((el) => {
+      return el.geometry.centroid;
+    });
+    console.log(centroidsGeometryArr);
+
+    const centroidGraphicsArr = centroidsGeometryArr.map((el) => {
+      return new Graphic({
+        geometry: el,
+        attributes: { x: el?.longitude, y: el?.latitude },
+      });
+    });
+
+    let pointRenderer = {
+      type: 'simple', // autocasts as new SimpleRenderer()
+      symbol: {
+        type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+        size: 5,
+        color: 'green',
+        outline: {
+          // autocasts as new SimpleLineSymbol()
+          width: 0.5,
+          color: 'white',
+        },
+      },
+    };
+    const centroidsFeatureLayer = new FeatureLayer({
+      source: centroidGraphicsArr,
+      renderer: pointRenderer,
+
+      geometryType: 'point',
+
+      spatialReference: { wkid: 4326, latestWkid: 4326 },
+
+      objectIdField: 'OBJECTID', // This must be defined when creating a layer from `Graphic` objects
+      fields: [
+        {
+          name: 'x',
+          type: 'double',
+          alias: 'x',
+        },
+        {
+          name: 'y',
+          type: 'double',
+          alias: 'y',
+        },
+      ],
+
+      popupTemplate: {
+        // autocasts as new PopupTemplate()
+        title: 'بيانات  النقطة',
+        content: [
+          {
+            type: 'fields',
+            fieldInfos: [
+              { fieldName: 'x', label: 'x' },
+              { fieldName: 'y', label: 'y' },
+            ],
+          },
+        ],
+      },
+    });
+
+    map.layers.add(centroidsFeatureLayer);
+  });
+
+  view.ui.add(element, 'top-right');
   /* -------------------------------------------------------------------------- */
   /*                                     end                                    */
   /* -------------------------------------------------------------------------- */
@@ -32544,7 +32675,7 @@ require([
   /* -------------------------------------------------------------------------- */
   /*                                     end                                    */
   /* -------------------------------------------------------------------------- */
-  //ANCHOR overlap relations
+  //ANCHOR helper data
 
   const polygon1 = {
     type: 'polygon',
@@ -32828,6 +32959,12 @@ require([
   ];
   // let y = [polygonGraphic11.geometry, polygonGraphic33.geometry];
   // console.log(z);
+  /* -------------------------------------------------------------------------- */
+  /*                                     end                                    */
+  /* -------------------------------------------------------------------------- */
+
+  //ANCHOR overlap relations
+
   // Add relationshipResults to the bottom-right of the view's UI.
   const relationshipDiv = document.getElementById('relationshipResults');
   view.ui.add(relationshipDiv, 'bottom-right');
@@ -32904,6 +33041,9 @@ require([
   /*                                     end                                    */
   /* -------------------------------------------------------------------------- */
 
+  //ANCHOR geometryServices
+
+  //*intersect
   // geometryService
   //   .intersect(
   //     'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/intersect',
@@ -32928,7 +33068,7 @@ require([
   //     });
   //   });
 
-  async function testgeoser() {
+  async function testgeoser1() {
     const res = await geometryService.intersect(
       'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/intersect',
       y,
@@ -32950,6 +33090,50 @@ require([
       graphicsLayer.add(intersectionGraphic);
     });
   }
-  // testgeoser();
+  // testgeoser1();
+
+  //*relation
+  async function testgeoser2() {
+    const geo = [
+      polygonGraphic3.geometry,
+      polygonGraphic4.geometry,
+      polygonGraphic5.geometry,
+      polygonGraphic6.geometry,
+      polygonGraphic7.geometry,
+    ];
+    const relationParams = new RelationParameters({
+      geometries1: geo,
+      geometries2: geo,
+      relation: 'overlap',
+    });
+
+    const res = await geometryService.relation(
+      'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/relation',
+      relationParams
+    );
+    console.log(res);
+
+    res.forEach(({ geometry1Index, geometry2Index }) => {
+      const intersectGeom = geometryEngine.intersect(
+        geo[geometry1Index],
+        geo[geometry2Index]
+      );
+      const intersectionGraphic = new Graphic({
+        geometry: intersectGeom,
+        symbol: {
+          type: 'simple-fill',
+          style: 'cross',
+          color: 'red',
+          outline: {
+            color: 'green',
+          },
+        },
+      });
+      graphicsLayer.add(intersectionGraphic);
+    });
+  }
+
+  // testgeoser2();
+
   // const geomSer =new GeometryService({url:'http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer'})
 });

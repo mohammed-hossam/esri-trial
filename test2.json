@@ -1,0 +1,16 @@
+{
+  "geometryType": "esriGeometryPolygon",
+  "geometries": [
+    {
+      "rings": [
+        [
+          [-105, 34],
+          [-104, 34],
+          [-104, 35],
+          [-105, 35],
+          [-105, 34]
+        ]
+      ]
+    }
+  ]
+}
