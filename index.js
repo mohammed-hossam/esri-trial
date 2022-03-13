@@ -31869,6 +31869,16 @@ require([
   'esri/tasks/GeometryService',
 
   'esri/rest/support/RelationParameters',
+
+  'esri/widgets/Directions',
+
+  'esri/widgets/Locate',
+
+  'esri/widgets/Search',
+
+  'esri/widgets/FeatureForm',
+
+  'esri/form/FormTemplate',
 ], function (
   esriConfig,
   Map,
@@ -31883,7 +31893,12 @@ require([
   geometryEngine,
   geometryService,
   GeometryService,
-  RelationParameters
+  RelationParameters,
+  Directions,
+  Locate,
+  Search,
+  FeatureForm,
+  FormTemplate
 ) {
   //ANCHOR begin
 
@@ -31892,9 +31907,15 @@ require([
   esriConfig.apiKey =
     'AAPK0824cd7d2bec46faa7356b4d1e758da1CXq8aYFk18lCgz07ECLgE3yJ-xHIVsVjXnoCXyafSPS6QCXgUHMTd3IknRAaxxYy';
 
+  // const map = new Map({
+  //   basemap: 'arcgis-imagery', // Basemap layer service
+  // });
   const map = new Map({
-    basemap: 'arcgis-imagery', // Basemap layer service
+    basemap: 'arcgis-navigation', // Basemap layer service
   });
+  // const map = new Map({
+  //   basemap: 'osm-streets', // Basemap layer service
+  // });
 
   const view = new MapView({
     map: map,
@@ -31936,162 +31957,6 @@ require([
     });
     globalGraphics = finalGraphics;
     return finalGraphics;
-  }
-
-  function checkintersect(arr, targetEle) {
-    arr.forEach(async (el, i) => {
-      const overlaps = geometryEngine.overlaps(el, targetEle);
-      console.log(overlaps);
-      if (overlaps) {
-        const x = geometryEngine.intersect(el, targetEle);
-
-        const intersectionGraphic = new Graphic({
-          geometry: x,
-          symbol: {
-            type: 'simple-fill',
-            style: 'solid',
-            color: 'red',
-            outline: {
-              color: 'green',
-            },
-          },
-          attributes: {
-            new: 'true',
-          },
-        });
-
-        // graphicsLayer.add(intersectionGraphic);
-
-        await globalfeatureLayer.queryFeatures();
-        globalfeatureLayer.applyEdits({
-          addFeatures: [intersectionGraphic],
-        });
-      }
-    });
-  }
-
-  async function createIntersect(finalGraphics) {
-    // test3
-    const arrfinal = finalGraphics.slice(0, 500);
-    const arrgeo = finalGraphics.map((el) => {
-      return el.geometry;
-    });
-    const relationParams = new RelationParameters({
-      geometries1: arrgeo,
-      geometries2: arrgeo,
-      relation: 'overlap',
-    });
-
-    const res = await geometryService.relation(
-      'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/relation',
-      relationParams
-    );
-    console.log(res);
-
-    res.forEach(({ geometry1Index, geometry2Index }) => {
-      const intersectGeom = geometryEngine.intersect(
-        arrgeo[geometry1Index],
-        arrgeo[geometry2Index]
-      );
-      const intersectionGraphic = new Graphic({
-        geometry: intersectGeom,
-        symbol: {
-          type: 'simple-fill',
-          style: 'solid',
-          color: 'red',
-          outline: {
-            color: 'green',
-          },
-        },
-        attributes: {
-          new: 'true',
-        },
-      });
-
-      graphicsLayer.add(intersectionGraphic);
-
-      // await globalfeatureLayer.queryFeatures();
-      // globalfeatureLayer.applyEdits({
-      //   addFeatures: [intersectionGraphic],
-      // });
-    });
-    // test2
-    // const arrfinal = finalGraphics.slice(0, 20);
-    // const arrgeo = arrfinal.map((el) => {
-    //   return el.geometry;
-    // });
-    // console.log(arrgeo);
-    // console.log(arrfinal);
-    // arrgeo.map((el, i) => {
-    //   checkintersect(arrgeo, el);
-    // });
-
-    // test1
-    // const arrfinal = finalGraphics.slice(0, 20);
-    // const arrgeo = arrfinal.map((el) => {
-    //   return el.geometry;
-    // });
-    // console.log(arrgeo);
-    // console.log(arrfinal);
-    // arrgeo.map((el, i) => {
-    // const test = await geometryService.intersect(
-    //   'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/intersect',
-    //   arrgeo,
-    //   el
-    // );
-    // console.log(test);
-    // const finalTest = test.map(() => {
-    //   return;
-    // });
-
-    // test.map(async (el) => {
-    //   const intersectionGraphic = new Graphic({
-    //     geometry: el,
-    //     attributes: {
-    //       new: 'true',
-    //     },
-    //   });
-    //   // graphicsLayer.add(intersectionGraphic);
-
-    //   await globalfeatureLayer.queryFeatures();
-    //   globalfeatureLayer.applyEdits({
-    //     addFeatures: [intersectionGraphic],
-    //   });
-    // });
-
-    // test.map((el) => {
-    //   const intersectionGraphic = new Graphic({
-    //     geometry: el,
-    //     symbol: {
-    //       type: 'simple-fill',
-    //       style: 'cross',
-    //       color: 'red',
-    //       outline: {
-    //         color: 'green',
-    //       },
-    //     },
-    //   });
-    //   graphicsLayer.add(intersectionGraphic);
-    // });
-
-    // .then((res) => {
-    //   console.log(res);
-    //   res.map((el) => {
-    //     const intersectionGraphic = new Graphic({
-    //       geometry: el,
-    //       symbol: {
-    //         type: 'simple-fill',
-    //         style: 'cross',
-    //         color: 'red',
-    //         outline: {
-    //           color: 'green',
-    //         },
-    //       },
-    //     });
-    //     graphicsLayer.add(intersectionGraphic);
-    //   });
-    // });
-    // });
   }
 
   let globalfeatureLayer;
@@ -32280,10 +32145,203 @@ require([
           },
         ],
       },
+
+      // formTemplate: {
+      //   // Autocasts to new FormTemplate
+      //   title: 'Damage assessments',
+      //   description: 'Provide information for insurance',
+      //   elements: [
+      //     {
+      //       // Autocasts to new GroupElement
+      //       type: 'group',
+      //       label: 'Inspector Information',
+      //       description: 'Field inspector information',
+      //       elements: [
+      //         {
+      //           type: 'field',
+      //           fieldName: 'رقم_الطلب',
+      //           label: 'رقم_الطلب',
+      //         },
+      //         {
+      //           type: 'field',
+      //           fieldName: 'اسم_المالك',
+      //           label: 'اسم_المالك',
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
     });
+
     map.add(featureLayer, 0);
     globalfeatureLayer = featureLayer;
     return res;
+  }
+
+  function checkintersect(arr, targetEle) {
+    arr.forEach(async (el, i) => {
+      const overlaps = geometryEngine.overlaps(el, targetEle);
+      console.log(overlaps);
+      if (overlaps) {
+        const x = geometryEngine.intersect(el, targetEle);
+
+        const intersectionGraphic = new Graphic({
+          geometry: x,
+          symbol: {
+            type: 'simple-fill',
+            style: 'solid',
+            color: 'red',
+            outline: {
+              color: 'green',
+            },
+          },
+          attributes: {
+            new: 'true',
+          },
+        });
+
+        // graphicsLayer.add(intersectionGraphic);
+
+        await globalfeatureLayer.queryFeatures();
+        globalfeatureLayer.applyEdits({
+          addFeatures: [intersectionGraphic],
+        });
+      }
+    });
+  }
+
+  async function createIntersect(finalGraphics) {
+    // test3
+    const arrfinal = finalGraphics.slice(0, 500);
+    const arrgeo = finalGraphics.map((el) => {
+      return el.geometry;
+    });
+    const relationParams = new RelationParameters({
+      geometries1: arrgeo,
+      geometries2: arrgeo,
+      relation: 'overlap',
+    });
+
+    const res = await geometryService.relation(
+      'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/relation',
+      relationParams
+    );
+    console.log(res);
+
+    res.forEach(({ geometry1Index, geometry2Index }) => {
+      const intersectGeom = geometryEngine.intersect(
+        arrgeo[geometry1Index],
+        arrgeo[geometry2Index]
+      );
+      // console.log(finalGraphics[geometry1Index].attributes['اسم_المالك']);
+      console.log(
+        ` قطعة ارض ${finalGraphics[geometry1Index].attributes['رقم_الطلب']} تتقاطع مع قطعة ارض ${finalGraphics[geometry2Index].attributes['رقم_الطلب']} في مساحة 23234`
+      );
+      // area caluclations of the overlaps geometries
+      // const area = geometryEngine.geodesicArea(
+      //   intersectGeom,
+      //   'square-kilometers'
+      // );
+      // console.log(area);
+      const intersectionGraphic = new Graphic({
+        geometry: intersectGeom,
+        symbol: {
+          type: 'simple-fill',
+          style: 'solid',
+          color: 'red',
+          outline: {
+            color: 'green',
+          },
+        },
+        attributes: {
+          new: 'true',
+        },
+      });
+
+      graphicsLayer.add(intersectionGraphic);
+
+      // await globalfeatureLayer.queryFeatures();
+      // globalfeatureLayer.applyEdits({
+      //   addFeatures: [intersectionGraphic],
+      // });
+    });
+    // test2
+    // const arrfinal = finalGraphics.slice(0, 20);
+    // const arrgeo = arrfinal.map((el) => {
+    //   return el.geometry;
+    // });
+    // console.log(arrgeo);
+    // console.log(arrfinal);
+    // arrgeo.map((el, i) => {
+    //   checkintersect(arrgeo, el);
+    // });
+
+    // test1
+    // const arrfinal = finalGraphics.slice(0, 20);
+    // const arrgeo = arrfinal.map((el) => {
+    //   return el.geometry;
+    // });
+    // console.log(arrgeo);
+    // console.log(arrfinal);
+    // arrgeo.map((el, i) => {
+    // const test = await geometryService.intersect(
+    //   'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/intersect',
+    //   arrgeo,
+    //   el
+    // );
+    // console.log(test);
+    // const finalTest = test.map(() => {
+    //   return;
+    // });
+
+    // test.map(async (el) => {
+    //   const intersectionGraphic = new Graphic({
+    //     geometry: el,
+    //     attributes: {
+    //       new: 'true',
+    //     },
+    //   });
+    //   // graphicsLayer.add(intersectionGraphic);
+
+    //   await globalfeatureLayer.queryFeatures();
+    //   globalfeatureLayer.applyEdits({
+    //     addFeatures: [intersectionGraphic],
+    //   });
+    // });
+
+    // test.map((el) => {
+    //   const intersectionGraphic = new Graphic({
+    //     geometry: el,
+    //     symbol: {
+    //       type: 'simple-fill',
+    //       style: 'cross',
+    //       color: 'red',
+    //       outline: {
+    //         color: 'green',
+    //       },
+    //     },
+    //   });
+    //   graphicsLayer.add(intersectionGraphic);
+    // });
+
+    // .then((res) => {
+    //   console.log(res);
+    //   res.map((el) => {
+    //     const intersectionGraphic = new Graphic({
+    //       geometry: el,
+    //       symbol: {
+    //         type: 'simple-fill',
+    //         style: 'cross',
+    //         color: 'red',
+    //         outline: {
+    //           color: 'green',
+    //         },
+    //       },
+    //     });
+    //     graphicsLayer.add(intersectionGraphic);
+    //   });
+    // });
+    // });
   }
 
   async function add() {
@@ -33041,7 +33099,7 @@ require([
   /*                                     end                                    */
   /* -------------------------------------------------------------------------- */
 
-  //ANCHOR geometryServices
+  //ANCHOR geometryServices test
 
   //*intersect
   // geometryService
@@ -33136,4 +33194,111 @@ require([
   // testgeoser2();
 
   // const geomSer =new GeometryService({url:'http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer'})
+
+  /* -------------------------------------------------------------------------- */
+  /*                                     end                                    */
+  /* -------------------------------------------------------------------------- */
+
+  //ANCHOR routing test
+/*   let directionsWidget = new Directions({
+    view: view,
+  });
+  // Adds the Directions widget below other elements in
+  // the top right corner of the view
+  view.ui.add(directionsWidget, {
+    position: 'bottom-left',
+    index: 3,
+  });
+
+  const routeUrl =
+    'https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World';
+
+  const locate = new Locate({
+    view: view,
+    useHeadingEnabled: false,
+    goToOverride: function (view, options) {
+      options.target.scale = 1500;
+      return view.goTo(options.target);
+    },
+  });
+  view.ui.add(locate, 'top-left'); */
+
+/* -------------------------------------------------------------------------- */
+/*                                     end                                    */
+/* -------------------------------------------------------------------------- */
+
+  //ANCHOR search test
+  const searchWidget = new Search({
+    view: view,
+  });
+
+  // Add the search widget to the top right corner of the view
+  view.ui.add(searchWidget, {
+    position: 'top-right',
+  });
+
+  //ANCHOR featureForm test
+  const formTemplate = new FormTemplate({
+    title: 'Inspector report',
+    description: 'Enter all relevant information below',
+    // elements: [
+    //   {
+    //     // Autocasts to new GroupElement
+    //     type: 'group',
+    //     label: 'Inspector Information',
+    //     description: 'Field inspector information',
+    //     elements: [
+    //       {
+    //         // Autocasts to new FieldElement
+    //         type: 'field',
+    //         fieldName: 'inspector',
+    //         label: 'name',
+    //       },
+    //       {
+    //         type: 'field',
+    //         fieldName: 'inspemail',
+    //         label: 'Email address',
+    //       },
+    //       {
+    //         type: 'field',
+    //         fieldName: 'insp_date',
+    //         label: 'Date of inspection',
+    //       },
+    //     ],
+    //   },
+    // ],
+
+    elements: [
+      {
+        // Autocasts to new GroupElement
+        type: 'group',
+        label: 'Inspector Information',
+        description: 'Field inspector information',
+        elements: [
+          {
+            type: 'field',
+            fieldName: 'رقم_الطلب',
+            label: 'رقم_الطلب',
+          },
+          {
+            type: 'field',
+            fieldName: 'اسم_المالك',
+            label: 'اسم_المالك',
+          },
+        ],
+      },
+    ],
+  });
+
+  const featureForm = new FeatureForm({
+    container: 'formDiv',
+    // feature: graphic,
+    layer: globalfeatureLayer,
+    formTemplate: formTemplate,
+    groupDisplay: 'sequential',
+  });
+
+  view.ui.add(featureForm, {
+    position: 'top-left',
+  });
 });
