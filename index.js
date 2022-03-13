@@ -31879,6 +31879,9 @@ require([
   'esri/widgets/FeatureForm',
 
   'esri/form/FormTemplate',
+
+  'esri/widgets/FeatureTable',
+  'esri/core/watchUtils',
 ], function (
   esriConfig,
   Map,
@@ -31898,7 +31901,9 @@ require([
   Locate,
   Search,
   FeatureForm,
-  FormTemplate
+  FormTemplate,
+  FeatureTable,
+  watchUtils
 ) {
   //ANCHOR begin
 
@@ -31907,12 +31912,12 @@ require([
   esriConfig.apiKey =
     'AAPK0824cd7d2bec46faa7356b4d1e758da1CXq8aYFk18lCgz07ECLgE3yJ-xHIVsVjXnoCXyafSPS6QCXgUHMTd3IknRAaxxYy';
 
-  // const map = new Map({
-  //   basemap: 'arcgis-imagery', // Basemap layer service
-  // });
   const map = new Map({
-    basemap: 'arcgis-navigation', // Basemap layer service
+    basemap: 'arcgis-imagery', // Basemap layer service
   });
+  // const map = new Map({
+  //   basemap: 'arcgis-navigation', // Basemap layer service
+  // });
   // const map = new Map({
   //   basemap: 'osm-streets', // Basemap layer service
   // });
@@ -31963,6 +31968,7 @@ require([
   function createLayer(res) {
     const featureLayer = new FeatureLayer({
       source: res,
+      title: 'USFS Recreational areas',
       renderer: {
         type: 'unique-value', // autocasts as new UniqueValueRenderer()
         field: 'new',
@@ -32145,35 +32151,58 @@ require([
           },
         ],
       },
-
-      // formTemplate: {
-      //   // Autocasts to new FormTemplate
-      //   title: 'Damage assessments',
-      //   description: 'Provide information for insurance',
-      //   elements: [
-      //     {
-      //       // Autocasts to new GroupElement
-      //       type: 'group',
-      //       label: 'Inspector Information',
-      //       description: 'Field inspector information',
-      //       elements: [
-      //         {
-      //           type: 'field',
-      //           fieldName: 'رقم_الطلب',
-      //           label: 'رقم_الطلب',
-      //         },
-      //         {
-      //           type: 'field',
-      //           fieldName: 'اسم_المالك',
-      //           label: 'اسم_المالك',
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
     });
 
     map.add(featureLayer, 0);
+
+    const featureTable = new FeatureTable({
+      view: view, // The view property must be set for the select/highlight to work
+      layer: featureLayer,
+      fieldConfigs: [
+        { name: 'OBJECTID', lable: 'OBJECTID' },
+
+        {
+          name: 'SHAPE_Length',
+          lable: 'SHAPE_Length',
+        },
+        {
+          name: 'SHAPE_Area',
+          lable: 'SHAPE_Area',
+        },
+        {
+          name: 'رقم_الطلب',
+          lable: 'رقم_الطلب',
+        },
+        {
+          name: 'تداخلات',
+          lable: 'تداخلات',
+        },
+        {
+          name: 'المحافظة',
+          lable: 'المحافظة',
+        },
+        {
+          name: 'اسم_المالك',
+          lable: 'اسم_المالك',
+        },
+        {
+          name: 'اسم_مقدم_الطلب',
+          lable: 'اسم_مقدم_الطلب',
+        },
+      ],
+      container: document.getElementById('tableDiv'),
+    });
+
+    // featureLayer.watch('loaded', () => {
+    //   watchUtils.whenFalse(view, 'updating', () => {
+    //     // Get the new extent of view/map whenever map is updated.
+    //     if (view.extent) {
+    //       // Filter out and show only the visible features in the feature table
+    //       featureTable.filterGeometry = view.extent;
+    //     }
+    //   });
+    // });
+
     globalfeatureLayer = featureLayer;
     return res;
   }
@@ -33198,9 +33227,24 @@ require([
   /* -------------------------------------------------------------------------- */
   /*                                     end                                    */
   /* -------------------------------------------------------------------------- */
+  //ANCHOR featureTable test
+  // globalfeatureLayer.title = 'USFS Recreational areas';
 
+  // globalfeatureLayer.watch('loaded', () => {
+  //   watchUtils.whenFalse(view, 'updating', () => {
+  //     // Get the new extent of view/map whenever map is updated.
+  //     if (view.extent) {
+  //       // Filter out and show only the visible features in the feature table
+  //       featureTable.filterGeometry = view.extent;
+  //     }
+  //   });
+  // });
+
+  /* -------------------------------------------------------------------------- */
+  /*                                     end                                    */
+  /* -------------------------------------------------------------------------- */
   //ANCHOR routing test
-/*   let directionsWidget = new Directions({
+  /* let directionsWidget = new Directions({
     view: view,
   });
   // Adds the Directions widget below other elements in
@@ -33221,24 +33265,28 @@ require([
       return view.goTo(options.target);
     },
   });
-  view.ui.add(locate, 'top-left'); */
-
-/* -------------------------------------------------------------------------- */
-/*                                     end                                    */
-/* -------------------------------------------------------------------------- */
+  view.ui.add(locate, 'top-left');
+ */
+  /* -------------------------------------------------------------------------- */
+  /*                                     end                                    */
+  /* -------------------------------------------------------------------------- */
 
   //ANCHOR search test
   const searchWidget = new Search({
     view: view,
+    sources: [globalfeatureLayer],
   });
-
+  console.log(searchWidget);
   // Add the search widget to the top right corner of the view
   view.ui.add(searchWidget, {
     position: 'top-right',
   });
 
+  /* -------------------------------------------------------------------------- */
+  /*                                     end                                    */
+  /* -------------------------------------------------------------------------- */
   //ANCHOR featureForm test
-  const formTemplate = new FormTemplate({
+  /*   const formTemplate = new FormTemplate({
     title: 'Inspector report',
     description: 'Enter all relevant information below',
     // elements: [
@@ -33292,7 +33340,7 @@ require([
 
   const featureForm = new FeatureForm({
     container: 'formDiv',
-    // feature: graphic,
+    feature: polygonGraphic1,
     layer: globalfeatureLayer,
     formTemplate: formTemplate,
     groupDisplay: 'sequential',
@@ -33301,4 +33349,5 @@ require([
   view.ui.add(featureForm, {
     position: 'top-left',
   });
+  console.log(featureForm); */
 });
