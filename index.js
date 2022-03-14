@@ -31846,6 +31846,26 @@ const blabla = [
   },
 ];
 
+interact('.resizable').resizable({
+  edges: { top: true, left: true, bottom: true, right: true },
+  listeners: {
+    move: function (event) {
+      let { x, y } = event.target.dataset;
+
+      x = (parseFloat(x) || 0) + event.deltaRect.left;
+      y = (parseFloat(y) || 0) + event.deltaRect.top;
+
+      Object.assign(event.target.style, {
+        width: `${event.rect.width}px`,
+        height: `${event.rect.height}px`,
+        transform: `translate(${x}px, ${y}px)`,
+      });
+
+      Object.assign(event.target.dataset, { x, y });
+    },
+  },
+});
+
 require([
   'esri/config',
   'esri/Map',
@@ -31927,12 +31947,19 @@ require([
     center: [30.8206, 27.8025], // Longitude, latitude
     zoom: 10, // Zoom level
     container: 'viewDiv', // Div element
-    // highlightOptions:{color:'green'}
+
+    // highlightOptions: {
+    //   color: [255, 241, 58],
+    //   fillOpacity: 0.4,
+    // },
   });
   /* -------------------------------------------------------------------------- */
   /*                                     end                                    */
   /* -------------------------------------------------------------------------- */
   //ANCHOR query
+  let globalGraphics;
+  let globalfeatureLayer;
+  let globalLayerView;
   view.when(() => {
     getData().then(createGraphics).then(createLayer).then(createIntersect);
     // .then(add);
@@ -31947,7 +31974,6 @@ require([
     });
   }
 
-  let globalGraphics;
   function createGraphics(res) {
     const data = res;
     const finalGraphics = data.map(function (place) {
@@ -31964,11 +31990,30 @@ require([
     return finalGraphics;
   }
 
-  let globalfeatureLayer;
   function createLayer(res) {
+    // const labelClass = {
+    //   // autocasts as new LabelClass()
+    //   symbol: {
+    //     type: 'text', // autocasts as new TextSymbol()
+    //     color: 'black',
+    //     font: {
+    //       // autocast as new Font()
+    //       family: 'Playfair Display',
+    //       size: 10,
+    //       weight: 'bold',
+    //     },
+    //   },
+    //   // labelPlacement: 'above-center',
+    //   labelExpressionInfo: {
+    //     expression: '$feature.رقم_الطلب',
+    //   },
+    // };
+
     const featureLayer = new FeatureLayer({
       source: res,
-      title: 'USFS Recreational areas',
+      title: 'محاصيل مصر',
+      outFields: ['*'],
+      // labelingInfo: [labelClass],
       renderer: {
         type: 'unique-value', // autocasts as new UniqueValueRenderer()
         field: 'new',
@@ -32155,6 +32200,7 @@ require([
 
     map.add(featureLayer, 0);
 
+    //table
     const featureTable = new FeatureTable({
       view: view, // The view property must be set for the select/highlight to work
       layer: featureLayer,
@@ -32201,6 +32247,34 @@ require([
     //       featureTable.filterGeometry = view.extent;
     //     }
     //   });
+    // });
+
+    // //query
+    // let query = featureLayer.createQuery();
+    // query.where = "رقم_الطلب = '6673B'";
+    // query.outFields = ['رقم_الطلب', 'المحافظة', 'OBJECTID'];
+
+    // //zoom and highlight
+    // featureLayer.queryFeatures(query).then(function (response) {
+
+    //   view.whenLayerView(featureLayer).then((layerView) => {
+    //     layerView.highlight(response.features[0]);
+
+    //     view.goTo(response.features[0]);
+    //   });
+    // });
+
+    view.whenLayerView(featureLayer).then((layerView) => {
+      globalLayerView = layerView;
+    });
+
+    //ANCHOR filter
+    // view.whenLayerView(featureLayer).then((layerView) => {
+    //   // flash flood warnings layer loaded
+    //   // get a reference to the flood warnings layerview
+    //   layerView.filter = {
+    //     where: "رقم_الطلب = '6746A'",
+    //   };
     // });
 
     globalfeatureLayer = featureLayer;
@@ -33272,15 +33346,51 @@ require([
   /* -------------------------------------------------------------------------- */
 
   //ANCHOR search test
-  const searchWidget = new Search({
-    view: view,
-    sources: [globalfeatureLayer],
+
+  // const searchWidget = new Search({
+  //   view: view,
+  //   sources: [globalfeatureLayer],
+  // });
+  // console.log(searchWidget);
+  // // Add the search widget to the top right corner of the view
+
+  document.getElementById('myForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    console.log('You selected: ', document.getElementById('myInput').value);
+    searchByTalab(document.getElementById('myInput').value.trim());
   });
-  console.log(searchWidget);
-  // Add the search widget to the top right corner of the view
-  view.ui.add(searchWidget, {
+  view.ui.add(document.getElementById('myForm'), {
     position: 'top-right',
   });
+
+  function searchByTalab(rqmElltalab) {
+    //query
+    let query = globalfeatureLayer.createQuery();
+    query.where = `رقم_الطلب = '${rqmElltalab}'`;
+    query.outFields = ['رقم_الطلب', 'المحافظة', 'OBJECTID'];
+
+    //zoom and highlight
+    globalfeatureLayer.queryFeatures(query).then(function (response) {
+      // returns a feature set with features containing the following attributes
+      // STATE_NAME, COUNTY_NAME, POPULATION, POP_DENSITY
+      console.log(response);
+      // view.goTo(response.features[0]);
+
+      globalLayerView.highlight(response.features[0]);
+
+      view.goTo(response.features[0]);
+
+      // view.whenLayerView(globalfeatureLayer).then((layerView) => {
+      //   // flash flood warnings layer loaded
+      //   // get a reference to the flood warnings layerview
+
+      //   console.log(response.features[0].attributes['رقم_الطلب']);
+      //   layerView.highlight(response.features[0]);
+
+      //   view.goTo(response.features[0]);
+      // });
+    });
+  }
 
   /* -------------------------------------------------------------------------- */
   /*                                     end                                    */

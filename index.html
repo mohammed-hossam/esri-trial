@@ -12,6 +12,7 @@
       rel="stylesheet"
       href="https://js.arcgis.com/4.22/esri/themes/light/main.css"
     />
+    <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
     <script src="https://js.arcgis.com/4.22/"></script>
     <!-- <script>
      require(["esri/config","esri/Map", "esri/views/MapView"], function (esriConfig,Map, MapView) {
@@ -22,6 +23,9 @@
   </head>
 
   <body>
+    <!-- <div class="resizable">
+      <p>Resize from any edge or corner</p>
+    </div> -->
     <div id="viewDiv"></div>
 
     <div id="relationshipResults" class="esri-widget">
@@ -42,10 +46,15 @@
       <option value="بطيخ">بطيخ</option>
     </select>
 
-    <div id="formDiv"></div>
+    <!-- <div id="formDiv"></div> -->
 
-    <div class="container">
+    <div class="resizable">
       <div id="tableDiv"></div>
     </div>
+
+    <form id="myForm">
+      <input type="text" id="myInput" placeholder="Search for talabat.." />
+      <button type="submit">search</button>
+    </form>
   </body>
 </html>
