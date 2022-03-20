@@ -31986,6 +31986,7 @@ require([
         attributes: place.attributes,
       });
     });
+
     globalGraphics = finalGraphics;
     return finalGraphics;
   }
@@ -32203,7 +32204,7 @@ require([
     map.add(featureLayer, 0);
 
     //table
-    const featureTable = new FeatureTable({
+    /*   const featureTable = new FeatureTable({
       view: view, // The view property must be set for the select/highlight to work
       layer: featureLayer,
       fieldConfigs: [
@@ -32240,6 +32241,7 @@ require([
       ],
       container: document.getElementById('tableDiv'),
     });
+ */
 
     // featureLayer.watch('loaded', () => {
     //   watchUtils.whenFalse(view, 'updating', () => {
@@ -32314,19 +32316,19 @@ require([
           },
         });
 
-        // graphicsLayer.add(intersectionGraphic);
+        graphicsLayer.add(intersectionGraphic);
 
-        await globalfeatureLayer.queryFeatures();
-        globalfeatureLayer.applyEdits({
-          addFeatures: [intersectionGraphic],
-        });
+        // await globalfeatureLayer.queryFeatures();
+        // globalfeatureLayer.applyEdits({
+        //   addFeatures: [intersectionGraphic],
+        // });
       }
     });
   }
 
   let globalIntersectionArrayGraphics;
   async function createIntersect(finalGraphics) {
-    // test3
+    //* test3
     // const arrfinal = finalGraphics.slice(0, 500);
     const arrgeo = finalGraphics.map((el) => {
       return el.geometry;
@@ -32439,18 +32441,19 @@ require([
       //   addFeatures: [intersectionGraphic],
       // });
     });
-    // test2
-    // const arrfinal = finalGraphics.slice(0, 20);
-    // const arrgeo = arrfinal.map((el) => {
-    //   return el.geometry;
-    // });
-    // console.log(arrgeo);
-    // console.log(arrfinal);
-    // arrgeo.map((el, i) => {
-    //   checkintersect(arrgeo, el);
-    // });
 
-    // test1
+    //* test2
+    /*     const arrfinal = finalGraphics.slice(0, 300);
+    const arrgeo = arrfinal.map((el) => {
+      return el.geometry;
+    });
+    console.log(arrgeo);
+    console.log(arrfinal);
+    arrgeo.map((el, i) => {
+      checkintersect(arrgeo, el);
+    }); */
+
+    //* test1
     // const arrfinal = finalGraphics.slice(0, 20);
     // const arrgeo = arrfinal.map((el) => {
     //   return el.geometry;
@@ -32518,6 +32521,102 @@ require([
     // });
   }
 
+  // let globalIntersectionArrayGraphics;
+  // async function createIntersect(finalGraphics) {
+  //   //* test3
+  //   // const arrfinal = finalGraphics.slice(0, 500);
+  //   const arrgeo = finalGraphics.map((el) => {
+  //     return el.geometry;
+  //   });
+
+  //   const relationParams = new RelationParameters({
+  //     geometries1: arrgeo,
+  //     geometries2: arrgeo,
+  //     relation: 'intersection',
+
+  //     // relationParameter: "RELATE(G1, G2, 'T********')",
+  //   });
+
+  //   const allRes = await geometryService.relation(
+  //     'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/relation',
+  //     relationParams
+  //   );
+
+  //   // console.log(res);
+  //   console.log(allRes);
+  //   // console.log(finalGraphics[17]);
+
+  //   const containArrgeo = allRes.filter((el) => {
+  //     return el.geometry1Index !== el.geometry2Index;
+  //   });
+  //   // .map((el) => {
+  //   //   return finalGraphics[el.geometry1Index].geometry;
+  //   // });
+  //   console.log(containArrgeo);
+  //   // containArrgeo.forEach((el) => {
+
+  //   //   const intersectionGraphic = new Graphic({
+  //   //     geometry: el,
+  //   //     symbol: {
+  //   //       type: 'simple-fill',
+  //   //       style: 'solid',
+  //   //       color: 'yellow',
+  //   //       outline: {
+  //   //         color: 'transparent',
+  //   //       },
+  //   //     },
+  //   //     attributes: {
+  //   //       new: 'true',
+  //   //     },
+  //   //   });
+  //   //   graphicsLayer.add(intersectionGraphic);
+
+  //   //   // await globalfeatureLayer.queryFeatures();
+  //   //   // globalfeatureLayer.applyEdits({
+  //   //   //   addFeatures: [intersectionGraphic],
+  //   //   // });
+  //   // });
+
+  //   // globalIntersectionArrayGraphics = res.map((el) => {
+  //   //   return {
+  //   //     graphic1: finalGraphics[el.geometry1Index],
+  //   //     graphic2: finalGraphics[el.geometry2Index],
+  //   //   };
+  //   // });
+
+  //   console.log(globalIntersectionArrayGraphics);
+  //   containArrgeo.forEach(({ geometry1Index, geometry2Index }) => {
+  //     const intersectGeom = geometryEngine.intersect(
+  //       arrgeo[geometry1Index],
+  //       arrgeo[geometry2Index]
+  //     );
+  //     console.log(
+  //       ` قطعة ارض ${finalGraphics[geometry1Index].attributes['reqNum']} تتقاطع مع قطعة ارض ${finalGraphics[geometry2Index].attributes['reqNum']} في مساحة 23234`
+  //     );
+
+  //     const intersectionGraphic = new Graphic({
+  //       geometry: intersectGeom,
+  //       symbol: {
+  //         type: 'simple-fill',
+  //         style: 'solid',
+  //         color: 'red',
+  //         outline: {
+  //           color: 'transparent',
+  //         },
+  //       },
+  //       attributes: {
+  //         new: 'true',
+  //       },
+  //     });
+  //     graphicsLayer.add(intersectionGraphic);
+
+  //     // await globalfeatureLayer.queryFeatures();
+  //     // globalfeatureLayer.applyEdits({
+  //     //   addFeatures: [intersectionGraphic],
+  //     // });
+  //   });
+  // }
+
   async function add() {
     const addedfeatures = blabla.map((el) => {
       return new Graphic({
@@ -32571,23 +32670,38 @@ require([
     const centroidGraphicsArr = centroidsGeometryArr.map((el) => {
       return new Graphic({
         geometry: el,
-        attributes: { x: el?.longitude, y: el?.latitude },
+        attributes: {
+          x: el ? toString(el.longitude) : 'none',
+          y: el ? toString(el.latitude) : 'none',
+        },
       });
     });
 
+    // let pointRenderer = {
+    //   type: 'simple', // autocasts as new SimpleRenderer()
+    //   symbol: {
+    //     type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+    //     size: 5,
+    //     color: 'green',
+    //     outline: {
+    //       // autocasts as new SimpleLineSymbol()
+    //       width: 0.5,
+    //       color: 'white',
+    //     },
+    //   },
+    // };
+
+    let symbol = {
+      type: 'picture-marker', // autocasts as new PictureMarkerSymbol()
+      url: './orange.svg',
+      width: '30px',
+      height: '30px',
+    };
     let pointRenderer = {
       type: 'simple', // autocasts as new SimpleRenderer()
-      symbol: {
-        type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
-        size: 5,
-        color: 'green',
-        outline: {
-          // autocasts as new SimpleLineSymbol()
-          width: 0.5,
-          color: 'white',
-        },
-      },
+      symbol: symbol,
     };
+
     const centroidsFeatureLayer = new FeatureLayer({
       source: centroidGraphicsArr,
       renderer: pointRenderer,
@@ -32600,12 +32714,12 @@ require([
       fields: [
         {
           name: 'x',
-          type: 'double',
+          type: 'string',
           alias: 'x',
         },
         {
           name: 'y',
-          type: 'double',
+          type: 'string',
           alias: 'y',
         },
       ],
@@ -33505,7 +33619,18 @@ require([
         excludedEffect: 'opacity(50%)',
       };
 
-      view.goTo({ target: response.features[0], zoom: 14 });
+      let query2 = globalfeatureLayer.createQuery();
+      query2.where = `ownerName = '${name}'`;
+      query2.outFields = ['ownerName', 'reqNum', 'المحافظة', 'OBJECTID'];
+      globalfeatureLayer.queryExtent(query2).then((results) => {
+        const extent = results.extent;
+        // const zoomScale = 6000;
+        // extent.expand((zoomScale / view.scale) * view.resolution);
+        view.goTo(extent);
+      });
+
+      //zoom without extent
+      // view.goTo({ target: response.features[0], zoom: 15 });
     });
   }
 
